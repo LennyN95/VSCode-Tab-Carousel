@@ -99,11 +99,48 @@ export class CycleRecentTabsCommand {
   }
 
   private async openTab(tab: RecentTabEntry): Promise<void> {
-    const document = await vscode.workspace.openTextDocument(tab.uri);
-    await vscode.window.showTextDocument(document, {
-      preview: false,
-      preserveFocus: false,
-      viewColumn: tab.viewColumn,
-    });
+    switch (tab.kind) {
+      case 'text': {
+        const document = await vscode.workspace.openTextDocument(tab.uri);
+        await vscode.window.showTextDocument(document, {
+          preview: false,
+          preserveFocus: false,
+          viewColumn: tab.viewColumn,
+        });
+        return;
+      }
+      case 'notebook': {
+        const document = await vscode.workspace.openNotebookDocument(tab.uri);
+        await vscode.window.showNotebookDocument(document, {
+          preview: false,
+          preserveFocus: false,
+          viewColumn: tab.viewColumn,
+        });
+        return;
+      }
+      case 'custom': {
+        await vscode.commands.executeCommand('vscode.openWith', tab.uri, tab.viewType, {
+          preview: false,
+          preserveFocus: false,
+          viewColumn: tab.viewColumn,
+        });
+        return;
+      }
+      case 'textDiff':
+      case 'notebookDiff': {
+        await vscode.commands.executeCommand(
+          'vscode.diff',
+          tab.original,
+          tab.modified,
+          tab.label,
+          {
+            preview: false,
+            preserveFocus: false,
+            viewColumn: tab.viewColumn,
+          },
+        );
+        return;
+      }
+    }
   }
 }
