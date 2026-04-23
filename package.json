@@ -17,6 +17,17 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Tab Carousel",
+      "properties": {
+        "tabCarousel.doublePressThresholdMs": {
+          "type": "number",
+          "default": 333,
+          "minimum": 100,
+          "description": "Maximum delay in milliseconds between the first and second Cmd+E press to enter cycling mode."
+        }
+      }
+    },
     "commands": [
       {
         "command": "tabCarousel.cycleRecentTabs",

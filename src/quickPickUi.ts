@@ -10,6 +10,8 @@ interface QuickPickCallbacks {
 }
 
 export class QuickPickUi {
+  private suppressActiveChangeEvents = false;
+
   public createQuickPick(
     entries: readonly RecentTabEntry[],
     session: SessionState,
@@ -24,7 +26,7 @@ export class QuickPickUi {
     }));
 
     quickPick.title = 'Recent Tabs';
-    quickPick.placeholder = 'Press Cmd+E to cycle, Enter to switch, Escape to cancel';
+    quickPick.placeholder = 'Cmd+E cycles, Enter/Escape switches, typing cancels carousel';
     quickPick.ignoreFocusOut = true;
     quickPick.matchOnDescription = false;
     quickPick.matchOnDetail = false;
@@ -32,13 +34,18 @@ export class QuickPickUi {
 
     quickPick.onDidChangeValue(() => {
       if (quickPick.value.length > 0) {
-        quickPick.value = '';
+        session.markDismissWithoutCommit();
+        quickPick.hide();
       }
     });
 
     quickPick.onDidChangeActive((activeItems) => {
       const activeItem = activeItems[0];
       if (!activeItem) {
+        return;
+      }
+
+      if (this.suppressActiveChangeEvents) {
         return;
       }
 
@@ -71,6 +78,10 @@ export class QuickPickUi {
       return;
     }
 
+    this.suppressActiveChangeEvents = true;
     quickPick.activeItems = [selectedItem];
+    setTimeout(() => {
+      this.suppressActiveChangeEvents = false;
+    }, 0);
   }
 }

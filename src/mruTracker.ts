@@ -47,6 +47,24 @@ export class RecentTabTracker implements vscode.Disposable {
     return [...this.entries];
   }
 
+  public filterToOpenTabs(entries: readonly RecentTabEntry[]): RecentTabEntry[] {
+    const openTabs = this.collectOpenTextTabs();
+    const filtered: RecentTabEntry[] = [];
+    const seen = new Set<string>();
+
+    for (const entry of entries) {
+      const openTab = openTabs.get(entry.key);
+      if (!openTab || seen.has(entry.key)) {
+        continue;
+      }
+
+      filtered.push(this.toEntry(openTab));
+      seen.add(entry.key);
+    }
+
+    return filtered;
+  }
+
   private seedInitialEntries(): void {
     const openTabs = [...this.collectOpenTextTabs().values()].sort((left, right) => left.order - right.order);
     this.entries = openTabs.slice(0, this.maxEntries).map((tab) => this.toEntry(tab));

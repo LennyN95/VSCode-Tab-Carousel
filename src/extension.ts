@@ -9,7 +9,7 @@ export function activate(context: vscode.ExtensionContext): void {
   const tracker = new RecentTabTracker(5);
   const session = new SessionState();
   const quickPickUi = new QuickPickUi();
-  const command = new CycleRecentTabsCommand(tracker, session, quickPickUi, 400);
+  const command = new CycleRecentTabsCommand(tracker, session, quickPickUi);
 
   context.subscriptions.push(
     tracker,
