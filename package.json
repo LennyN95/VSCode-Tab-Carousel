@@ -6,6 +6,14 @@
   "publisher": "lenny",
   "license": "MIT",
   "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LennyN95/VSCode-Tab-Carousel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LennyN95/VSCode-Tab-Carousel/issues"
+  },
+  "homepage": "https://github.com/LennyN95/VSCode-Tab-Carousel#readme",
   "engines": {
     "vscode": "^1.90.0"
   },
