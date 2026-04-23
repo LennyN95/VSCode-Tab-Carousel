@@ -1,0 +1,44 @@
+{
+  "name": "tab-carousel",
+  "displayName": "Tab Carousel",
+  "description": "A recent-tab switcher for VS Code that cycles through your MRU editor tabs with Cmd+E.",
+  "version": "0.0.1",
+  "publisher": "lenny",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:tabCarousel.cycleRecentTabs"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "tabCarousel.cycleRecentTabs",
+        "title": "Tab Carousel: Cycle Recent Tabs"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "tabCarousel.cycleRecentTabs",
+        "mac": "cmd+e",
+        "when": "editorTextFocus || tabCarousel.sessionActive"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.57",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.8.3"
+  }
+}
