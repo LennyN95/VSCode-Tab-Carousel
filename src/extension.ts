@@ -6,7 +6,7 @@ import { QuickPickUi } from './quickPickUi';
 import { SessionState } from './sessionState';
 
 export function activate(context: vscode.ExtensionContext): void {
-  const tracker = new RecentTabTracker(5);
+  const tracker = new RecentTabTracker();
   const session = new SessionState();
   const quickPickUi = new QuickPickUi();
   const command = new CycleRecentTabsCommand(tracker, session, quickPickUi);

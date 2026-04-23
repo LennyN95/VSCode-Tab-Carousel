@@ -24,6 +24,12 @@
     "configuration": {
       "title": "Tab Carousel",
       "properties": {
+        "tabCarousel.maxTabs": {
+          "type": "number",
+          "default": 5,
+          "minimum": 2,
+          "description": "Maximum number of recent tabs to keep in the carousel list."
+        },
         "tabCarousel.doublePressThresholdMs": {
           "type": "number",
           "default": 333,
@@ -42,7 +48,7 @@
       {
         "command": "tabCarousel.cycleRecentTabs",
         "mac": "cmd+e",
-        "when": "editorTextFocus || tabCarousel.sessionActive"
+        "when": "editorFocus || notebookEditorFocused || tabCarousel.sessionActive"
       }
     ]
   },

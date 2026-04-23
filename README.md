@@ -2,11 +2,11 @@
 
 Tab Carousel is a lightweight VS Code extension that lets you switch between your most recently used editor tabs with `Cmd+E`.
 
-It keeps a short MRU list of up to five open text-editor tabs. A single `Cmd+E` switches to the previous tab immediately. If a second `Cmd+E` follows quickly, the extension returns to the tab where you started, opens a minimal `QuickPick`, and then continues cycling inside that frozen snapshot.
+It keeps a short MRU list of recent open editor tabs, defaulting to five. A single `Cmd+E` switches to the previous tab immediately. If a second `Cmd+E` follows quickly, the extension returns to the tab where you started, opens a minimal `QuickPick`, and then continues cycling inside that frozen snapshot.
 
 ## Features
 
-- Tracks up to 5 most recently active open editor tabs.
+- Tracks a configurable number of most recently active open editor tabs, with a default of 5.
 - Supports regular text editors, diff editors, notebooks, notebook diffs, and custom editors.
 - A single `Cmd+E` switches to the previously active tab immediately.
 - A rapid second `Cmd+E` opens a `QuickPick` and enters cycling mode.
@@ -41,13 +41,14 @@ The switcher preserves a short-lived MRU snapshot so it can distinguish a quick 
 
 ## Configuration
 
+- `tabCarousel.maxTabs`: maximum number of recent tabs to keep in the carousel list. Default: `5`.
 - `tabCarousel.doublePressThresholdMs`: maximum delay in milliseconds between the first and second `Cmd+E` press to enter cycling mode. Default: `333`.
 
 ## Implementation Notes
 
 - The extension uses `window.createQuickPick()` rather than the one-shot `showQuickPick()` API so a single picker instance can remain open across repeated command invocations.
 - MRU tracking is maintained separately from UI state and refreshed against currently open tabs to avoid stale entries.
-- Only valid, currently open text editor tabs are included in the picker.
+- Only valid, currently open editor tabs are included in the picker.
 - Reopenable tab kinds are included in the picker; transient tabs such as terminals and arbitrary webviews are skipped.
 - Duplicate entries are removed by URI.
 

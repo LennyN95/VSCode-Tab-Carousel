@@ -12,7 +12,7 @@ export class RecentTabTracker implements vscode.Disposable {
   private entries: RecentTabEntry[] = [];
   private lastActiveKey: string | undefined;
 
-  public constructor(private readonly maxEntries = 5) {
+  public constructor() {
     this.seedInitialEntries();
 
     this.disposables.push(
@@ -62,7 +62,7 @@ export class RecentTabTracker implements vscode.Disposable {
 
   private seedInitialEntries(): void {
     const openTabs = [...this.collectOpenTabs().values()].sort((left, right) => left.order - right.order);
-    this.entries = openTabs.slice(0, this.maxEntries).map((tab) => this.toEntry(tab));
+    this.entries = openTabs.slice(0, this.getMaxEntries()).map((tab) => this.toEntry(tab));
   }
 
   private syncActiveTab(): void {
@@ -100,7 +100,7 @@ export class RecentTabTracker implements vscode.Disposable {
 
     const preserved = this.entries.filter((entry) => entry.key !== key && openTabs.has(entry.key));
 
-    this.entries = [this.toEntry(current), ...preserved].slice(0, this.maxEntries);
+    this.entries = [this.toEntry(current), ...preserved].slice(0, this.getMaxEntries());
     this.pruneAndRefresh();
   }
 
@@ -121,7 +121,7 @@ export class RecentTabTracker implements vscode.Disposable {
 
     const fallbackTabs = [...openTabs.values()].sort((left, right) => left.order - right.order);
     for (const openTab of fallbackTabs) {
-      if (refreshed.length >= this.maxEntries) {
+      if (refreshed.length >= this.getMaxEntries()) {
         break;
       }
 
@@ -345,5 +345,14 @@ export class RecentTabTracker implements vscode.Disposable {
 
   private getDiffDescription(original: vscode.Uri, modified: vscode.Uri): string {
     return `${this.getSingleDescription(original)} \u2194 ${this.getSingleDescription(modified)}`;
+  }
+
+  private getMaxEntries(): number {
+    const configured = vscode.workspace.getConfiguration('tabCarousel').get<number>('maxTabs', 5);
+    if (typeof configured !== 'number' || !Number.isFinite(configured)) {
+      return 5;
+    }
+
+    return Math.max(2, Math.round(configured));
   }
 }
