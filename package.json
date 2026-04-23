@@ -15,6 +15,9 @@
     "onStartupFinished",
     "onCommand:tabCarousel.cycleRecentTabs"
   ],
+  "extensionKind": [
+    "ui"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "configuration": {
