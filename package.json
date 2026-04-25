@@ -2,7 +2,7 @@
   "name": "tab-carousel",
   "displayName": "Tab Carousel",
   "description": "A recent-tab switcher for VS Code that cycles through your MRU editor tabs with Cmd+E.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "lenny",
   "license": "MIT",
   "icon": "icon.png",
@@ -56,7 +56,7 @@
       {
         "command": "tabCarousel.cycleRecentTabs",
         "mac": "cmd+e",
-        "when": "editorFocus || notebookEditorFocused || tabCarousel.sessionActive"
+        "when": "editorFocus || notebookEditorFocused || activeWebviewPanelId != '' || activeCustomEditorId != '' || tabCarousel.sessionActive"
       }
     ]
   },

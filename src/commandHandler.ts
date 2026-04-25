@@ -28,13 +28,14 @@ export class CycleRecentTabsCommand {
     }
 
     const recentTabs = this.tracker.getRecentTabs();
-    if (recentTabs.length < 2) {
+    const targetIndex = this.tracker.hasSupportedActiveTab() ? 1 : 0;
+    if (recentTabs.length <= targetIndex) {
       this.session.clearPendingCycle();
       return;
     }
 
     this.session.startPendingCycle(recentTabs, 0, doublePressThresholdMs);
-    await this.openTab(recentTabs[1]);
+    await this.openTab(recentTabs[targetIndex]);
   }
 
   private async beginCyclingSession(

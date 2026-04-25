@@ -50,6 +50,7 @@ The switcher preserves a short-lived MRU snapshot so it can distinguish a quick 
 - MRU tracking is maintained separately from UI state and refreshed against currently open tabs to avoid stale entries.
 - Only valid, currently open editor tabs are included in the picker.
 - Reopenable tab kinds are included in the picker; transient tabs such as terminals and arbitrary webviews are skipped.
+- If the active tab is unsupported, a single `Cmd+E` still switches away to the most recent supported tab.
 - Duplicate entries are removed by URI.
 
 ## Commands

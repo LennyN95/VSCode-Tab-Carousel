@@ -42,6 +42,11 @@ export class RecentTabTracker implements vscode.Disposable {
     return [...this.entries];
   }
 
+  public hasSupportedActiveTab(): boolean {
+    const activeTab = vscode.window.tabGroups.activeTabGroup.activeTab;
+    return activeTab ? this.keyForInput(activeTab.input) !== undefined : false;
+  }
+
   public filterToOpenTabs(entries: readonly RecentTabEntry[]): RecentTabEntry[] {
     const openTabs = this.collectOpenTabs();
     const filtered: RecentTabEntry[] = [];
